@@ -1,0 +1,11 @@
+5) When the project is using Spring 4.3  and Hibernate 5.2, how to write the JUnit test without bounded with concrete DB closely. In other words, How to mock DB in JUnit test for service method.  If not possible give the reason else list cases for the different scenario. 
+
+
+
+When an application is using Spring and Hibernate, we can test the DAO methods using Spring tests or Mockito framework. 
+
+- Mockito: This framework provides a way to simulate the behavior of objects. For instance, a Junit run by MockitoJUnitRunner can mock DAO class and entity objects. We can stub the behavior of mock object's method using 'When().thenReturn()'. We can also verify the number of method invocations and the order of invocations. By stubbing the behavior of method invocations, we can avoid calling the DB.
+
+- Spring test: We can use spring test for testing DAO methods which has access to an in-memory DB such as HSQLDB, H2, Derby. This provides us a way to avoid using the real DB for reasons such as data corruption, permission issues etc. A junit run by SpringJUnit4ClassRunner initializes Spring application framework and loads application-context file created for tests. This would configure an in-memory DB. When the test is run, the data is persisted in table which is in-memory DB. The transaction is rolled back once the test is executed. Further using Spring test, we could autowire the DAO class.
+
+Hence, Mockito would be useful to test the method in isolation by mocking objects, stubbing method calls and verifying them. However, Spring test have an advantage over Mockito test as Spring test would test the Hibernate mappings and DB queries.
